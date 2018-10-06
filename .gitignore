@@ -9,3 +9,7 @@ Thumbs.db
 .rbenv-version
 .rvmrc
 /vendor
+
+.idea
+_template
+_draft
