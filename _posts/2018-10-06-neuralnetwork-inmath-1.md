@@ -128,3 +128,4 @@ http://cpmarkchang.logdown.com/posts/436316-optimization-method-newton
 https://blog.csdn.net/bitcarmanlee/article/details/52195617  
 https://kexue.fm/archives/4277  
 http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/  
+http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf  
