@@ -1,10 +1,11 @@
 ---
-title: 論文解析:Real-time Personalization using Embeddings for Search Ranking at Airbnb
+title: 推薦系統處理特徵很麻煩？用訓練詞向量的方式來做個人化的推薦系統
 categories:
  - Paper Reading
 tags: 論文解析
 ---
 
+**Real-time Personalization using Embeddings for Search Ranking at Airbnb**
 **2018 KDD Best Paper**
 
 試想一下，我們在Airbnb上要預定房間，通常結果都是眼花繚亂，一個個點擊查看會花費大量時間成本。
