@@ -66,14 +66,14 @@ Soft parameter sharing則是每個模型都有獨立參數，通過正則化的�
 這裏用GLUE這個dataset，其包含9個NLU的task，可以多方面衡量這個模型的能力
 可見其在每一個task都有提升
 
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_mtdnnfnlu/img7)
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_mtdnnfnlu/img8)
 
 
 雖然提升是有提升，但其實只有1~2%，最高也只有5%左右，感覺這個方法用處不大啊
 但其實，其强大的地方是在於，在面對一個新的task，在缺乏足夠語料的情況下，卻可以得到極爲不錯的效果。
 做完GLUE task之後，引入以下兩個新task，分別取0.1%，1%，10%和100%的資料，模擬資料不足的情況下，模型的能力
 
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_mtdnnfnlu/img8)
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_mtdnnfnlu/img9)
 
 
 效果可以說十分驚艷，在少量的data上可以得到極高的結果，證明這比一般的bert有更加强大的一般化能力。
