@@ -1,179 +1,175 @@
----   
-title: 實作 從loss入手，解決資料不平衡帶來的訓練問題   
-categories:   
- - Implement   
-tags: 實作   
----   
-   
-最近訓練網絡的過程中，由於訓練資料不平衡，導致結果不如理想。   
-研究目前方法之後，對loss function做了一點點修改，減緩over fitting的情況。   
+---      
+title: Bert 怎麽用？bert各種使用上的疑問和細節      
+categories:      
+ - Implement      
+tags: 實作      
+---      
 
-比較常見的情況之一，會是在做分類的時候，某一類的樣本總是特別多，這就導致模型會偏向將結果判斷成這一類，可以輕鬆得到很高的準確度，但這個準確度對實作來説，並沒有什麽用。   
+Bert出來好一段時間，使用過程中或多或少會有一些疑問：   
    
-常見的例子是：資料中有大量正樣本，比如 100筆資料中，當中有95筆資料是正樣本，5筆資料是負樣本。那模型只要將結果都預測為正樣本，模型準確度就可以有95%   
+- 如果不做finetune而是傳統的方法會怎麼樣？   
+- 只拿最後一層真的是最好的選擇嗎？   
+- bert在中文上怎麼樣可以做到更好？   
+- 超過512個字應該怎麼樣處理？   
+- bert可以做文本生成嗎？   
+- Bert做多任務?   
+- Bert可以用在什麽Task上面呢？   
+- MaskLM和NextSentencePrediction兩種訓練方式應該怎麼關聯到我們的任務上？   
    
-**神經網絡訓練跟樣本不平衡的關係**   
-那麽從神經網絡的角度來看，可以怎麽解決這個問題呢？   
-簡單總結下神經網絡訓練過程，就是根據我們的 objective function得到離目標結果有多近(loss/梯度)，通過反向傳播的方式讓預測結果與目標結果越近越好。   
+在此希望對這些問題探討看看~
    
-當樣本很不平衡，如剛剛的例子，100筆資料中，當中有95筆資料是正樣本，5筆資料是負樣本舉例好了，若網絡將所有樣本預測成正樣本，所以正樣本的loss會是0，負樣本的loss則會是1，有五個負樣本，loss就有5。   
-收到loss以後網絡開始調整參數，若干輪訓練后，每一個正樣本或多或少都會有一點loss，比如本來是100%確定是正樣本，現在變成99%確定了。這1%的差距也就是正樣本的loss，假設95個正樣本都掉了1%，正樣本提供的total loss就是0.95了。此時負樣本已經做很好了，單看負樣本loss也降到2。   
-   
-這時候發現，我們回傳總共的loss會是2.95，正樣本這些一點點，一點點的loss，積少成多以至於最終正樣本提供的loss佔總共的32% ！   
-可是我們在乎99%到100%的差距嗎？顯然不是的，但這一點點的差距在大量樣本的帶動下，影響著loss的計算，使得網絡的更新不如人意。這也是從神經網絡的訓練來看，樣本不平衡會帶來的問題。   
-   
-**對做很好的地方減少關注 - Focal loss**   
-人總會過於關注自己做得好的地方，看來神經網絡也一樣XD   
-對於預測來説，51%是正樣本，跟81甚至99%其實沒有差別。最後預測出來的結果也是正樣本。   
-預測結果越接近正確的結果，其實也就越不需要更新了。但完全沒有梯度也不好，其可能受其他資料更新的結果影響，使得結果不進反退   
-   
-爲了讓結果能保持下去，我們需要讓模型每次都要有梯度更新，而準確度越高，更新的量應該越少，才可以避免被大量容易處理的資料帶歪。   
-   
-做法也呼之欲出了，給梯度一個權重，這個權重使得準確度越高，梯度越小，作為懲罰   
-本來cross entropy的計算是   
-$$ -log(Px) $$    
-越高的機率，意味越不需要更新，因此懲罰越多，因此可以改成   
-$$ -(1-Px)* log(Px)$$    
-為了讓這個懲罰更加有力，可以讓其變成指數級   
-$$ -(1-Px)* log(Px) $$    
-這個就是focal loss，如果在二分類，還會有一個調節權重的參數。  
-Focal Loss的圖（關注0-1的部分就好）   
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img1)
 
+## 回顧Bert的訓練過程   
+Bert 是Multi-task的方式訓練，其中有兩個task，一個是NextSentencePrediction - 預測兩個句子是否前後文關係；一個是MaskLM，預測被MASK起來的字   
    
-**也要接受怎麼樣也做不好的地方**   
-focal loss之後，有研究繼續往這個方向探討   
-AAAI 2019 - Gradient Harmonized Single-stage Detector   
-   
-除了會存在大量很好分類的樣本，還會有一些怎麼樣都做不太好的樣本，強行去fit這些樣本，很可能導致網路over fitting   
-因此，我們在網路做很爛的地方，也可以給他一個懲罰   
-   
-這篇paper也想進一步，讓這個懲罰參數，可以根據當前情況動態設定   
-比如這個梯度出現次數很多的話，可以讓梯度除出現次數，這樣就可以根據樣本量動態懲罰   
-   
-想法比較簡單，但實作起來會比較麻煩   
-每次計算的梯度總會或多或少不一樣，一段一段離散地分佈，使得樣本量估算會變很小，懲罰的力道就遠遠不夠！   
-   
-訓練時我們不可能一次統計所有樣本的梯度，免不了要切成batch。在處理一個batch的時候還沒能知道整體情況，怎麼做到動態懲罰呢？   
-   
-要解決這兩個問題，要預先設定好梯度區間，落在同一個區間都會視為這一個梯度的樣本量。而統計梯度，則可以採用移動平均來近似。   
-   
-說真的，相對focal只改一行code，這個實作起來還是有夠麻煩，那有沒有結合以上兩個優點的方法呢！   
-   
-**兩全其美的方法？**   
-   
-換言之，我們希望尋找一個兼顧以上兩個paper的方法，設計一個可以對於準確度很高以及很低兩種情況給予懲罰，使得網路不好被這些樣本帶歪。   
-   
-中間高，兩頭低，是不是剛好想到一個很符合這個要求的 - 高斯曲線   
-   
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Normal_distribution_pdf.png/1024px-Normal_distribution_pdf.png)   
-   
-下一個問題，就是參數應該怎麼設定了   
-高斯曲線有兩個參數，中心點和開合程度   
-   
-中心點可以設定在0.5 在這個不上不下的時候權重應該最高   
-   
-開合程度嘛，可以參考focal loss的曲線設定，我們應該讓最低跟最高點落差明顯，而同時在0和1之間不能跌到負數，不然權重就亂了   
-   
-同時，對於做不好的結果，懲罰也不應該比做很好一樣。一來做不好的樣本佔比很少，而來一開始訓練的時候很多樣本也是做不太好，懲罰太大，導致收斂會變慢   
-   
-結合這三點 可以得出   
-   
-$$ \left(e^{\frac{-\left(x-m\right)^2}{2s^2}}\right)-0.1x $$   
-我們可以稱之位：gaussian weight loss，簡稱***GW Loss***   
-其對應的圖會是這樣：   
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img2)  
-與Focal Loss對比，則會是這樣（focal loss為黑色，GW loss為紅色）
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img3)    
-以下是Focal Loss 和 GW Loss 的Code
-```python
-##Focal Loss
-
-import math
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.autograd import Variable
-
-class FocalLoss(nn.Module):
-    def __init__(self, gamma=2):
-        super(FocalLoss, self).__init__()
-        self.gamma = gamma
-
-    def forward(self, input, target):
-        if input.dim() > 2:
-            input = input.view(input.size(0), input.size(1), -1)  # N,C,H,W => N,C,H*W
-            input = input.transpose(1, 2)  # N,C,H*W => N,H*W,C
-            input = input.contiguous().view(-1, input.size(2))  # N,H*W,C => N*H*W,C
-        target = target.view(-1, 1)
-
-        logpt = F.log_softmax(input)
-        logpt = logpt.gather(1, target)
-        logpt = logpt.view(-1)
-        pt = Variable(logpt.data.exp())
-
-        loss = -1 * (1 - pt) ** self.gamma * logpt
-        return loss.mean()
-```   
-   
-```python
-##GW Loss
-
-import math
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.autograd import Variable
-
-class GWLoss(nn.Module):
-    def __init__(self):
-        super(GWLoss, self).__init__()
-  
-    def gaussian(self,x,mean=0.5,variance=0.25):
-      for i,v in enumerate(x.data):
-        x[i] = math.exp(-(v-mean)**2/(2.0*variance**2))
-      return x
-    
-    def forward(self, input, target):
-      
-        if input.dim()>2:
-            input = input.view(input.size(0),input.size(1),-1)  
-            input = input.transpose(1,2)    
-            input = input.contiguous().view(-1,input.size(2))  
-        target = target.view(-1,1)
-
-        logpt = F.log_softmax(input)
-        logpt = logpt.gather(1,target)
-        logpt = logpt.view(-1)
-        pt = Variable(logpt.data.exp())
-        loss = -1 *  (self.gaussian(pt,variance=0.1*math.exp(1),mean=0.5)-0.1*pt) * logpt
-        return loss.mean()
-```   
-   
-在pytorch的官方demo code實驗者個loss function如何   
-   
-[pytorch tutorial](https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html)     
-   
-[Colab](https://drive.google.com/file/d/1VYTRHcX_Zs2HPGIQ5SDwUXemZVUOXaZ-/view?usp=sharing)    
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img1)   
    
    
-這個實驗的輸入是某個語言的字符   
-判斷這個字符屬於哪一個語言，作為輸出   
+輸入的數據經過三層embedding后，輸入到transformer的Encoder，然後輸出兩個task的結果   
+魔鬼在於細節，值得留意的是：   
+在那麽多層的transformer，Bert只取最後一層作爲輸出。   
+其中 MaskLM是用整個最後一層 作爲預測的輸入   
+而 NextSentencePrediction卻是只用第一個輸入，也就是[CLS]作爲預測的輸入   
+也就是說，[CLS]會學到句子之間的關係，會隱含句子層面的訊息   
    
-從confusion matrix 可以看到，在英文法文荷蘭文中機率都很接近，不好分別   
-而用了balance loss以後，他們變得更加好分便了   
+兩個Task聯合更新，也是一貫mullti-task的做法，將兩個task的loss相加   
    
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img4)    
-   
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img5)    
-   
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img6)   
-    
-    
-最後要說的是，loss function的選擇還是要根據資料的情況來決定，沒有絕對的方法xd   
-      
-參考自:    
-Focal Loss for Dense Object Detection    
-AAAI 2019 - Gradient Harmonized Single-stage Detector   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img2)   
    
    
+## MaskLM和NextSentencePrediction兩種訓練方式應該怎麼關聯到我們的任務上？   
+在看過Bert的訓練過程，可以發現，對於句子級別的任務更加適合用[CLS]來處理   
+字級別的任務，則可**MaskLM輸出接FeedForward**   
+其中一個例子是 Fine-tune BERT for Extractive Summarization 所做的抽取式摘要   
+就是將句子用[CLS]跟[SEP]相隔作爲輸入，然後取[CLS]丟到summarization layer得到預測   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img3)   
    
    
+也是考慮到[CLS]可以學到句子層面的關係，而采用這樣的架構   
+   
+## 只拿最後一層真的是最好的選擇嗎？   
+爲什麽Bert只拿最後一層呢?   
+照理說，不同層的transformer應該會學到不同類型的語義信息，整合所有層的輸出應該效果會最好   
+我們並不確定哪一層有用，哪一層沒有用，因此可以讓網絡自己去學，應該取那些訊息來用   
+Multi-Head Multi-Layer Attention to Deep Language Representations for Grammatical Error Detection   
+就是嘗試修改Bert的架構達成這件事情   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img4)   
+   
+   
+最後做出的結果，也是符合預期   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img5)   
+   
+   
+由此可見，設計一個考慮各層的方法有助於提高性能。猜測由於訓練的時候是取最後一層，使得最後一層學到更多判斷語義的訊息，因此只拿最後一層，也夠用了。   
+   
+   
+## 如果不做finetune而是傳統的方法會怎麼樣？   
+傳統的方法如word2vec，通常會將詞向量作爲模型輸入的一部分，再去訓練整個模型，可以稱爲feature extraction，相對bert則提出直接finetune這個做法。   
+feature extraction模型上做finetune會怎麽樣？Bert用feature extraction的方法又會怎麽樣？   
+To Tune or Not to Tune? Adapting Pretrained Representations to Diverse Tasks   
+這篇論文在ELMo和Bert就這個問題，在各種task上面比較   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img6)   
+   
+   
+Bert 的 finetune都比feature extraction要好，而ELMo則是相反。   
+按照論文的解釋，finetune會在任務跟pretrain很相近時有更加好的結果，feature extraction則是在task任務跟pretrain關係比較疏遠時，會有更加好的結果。   
+據此猜測，Bert的finetune效果更好是因爲MaskLM跟NextSentencePrediction在各種NLP Task有很高的普適性，其實處理的問題也是差不多，因此Bert上finetune效果會是最好的。   
+這也與我在QAnet上用bert作爲輸入embedding 對比 Bert Finetune 的實驗結果一致，Bert的fine-tune收斂更快，結果也比較好。   
+   
+## bert在中文上怎麼樣可以做到更好？   
+Bert用在中文上，可以加入詞的訊息，讓模型達到更好的效果。   
+參考baidu所做的ERNIE，其實方法簡單，就是在MaskLM的時候用詞爲單位做mask   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img7)   
+   
+   
+當預測目標由 爾 變成 哈爾濱 後，attention得到的訊息更有層次，可以知道哈爾濱的跟其他字的聯係可以被區分開來計算。   
+最終可以帶來全面的提升:   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img8)   
+   
+   
+英文也有類似phrase的存在，其實也面臨一樣的問題。   
+但詞的訊息需要預先斷詞去獲得，斷詞的各種問題也將是一個麻煩 OWO   
+為了避免麻煩，Google提出另外的思路 - BERT Mask N-Gram ：用N-Gram來代替斷詞   
+改善中文Bert的結果，可以試試看用WordMaskLM或NGramMaskLM的方式去finetune目前的pretraining   
+   
+## 超過512個字應該怎麼樣處理？   
+github 上有個Issue在討論這個問題   
+https://github.com/google-research/bert/issues/66   
+在QA的Task上，當輸入的段落大於threshold，可以用一個sliding Windows分成幾段   
+假設以下是輸入，sliding Windows設 6   
+   
+    the man went to the store and bought a gallon of milk tea.   
+   
+就會得到   
+   
+    the man went to the store   
+    and bought a gallon of milk.   
+   
+然後到QA的task，若答案在第二句，則會將第一句標記為沒有答案（SQuAD 2）   
+第二句則重新計算答案位置標注即可。這樣一刀切的方法未免太過粗暴了，假設答案的推斷是需要上下文訊息，這樣不就缺失了嗎   
+所有又有了改善方法，切完之後，從切斷文本的一半作爲新的起點。   
+用例子會比較清晰，以上面的句子，同樣設sliding Windows為 6，這個方法會得到：   
+   
+    the man went to the store   
+    to the store and bought a   
+    and bought a gallon of milk   
+    gallon of milk tea   
+   
+有了更多的sample讓模型更能抓到前後文訊息。   
+CODE:   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img9)   
+   
+如果不做finetune而是傳統的方法會怎麼樣？   
+但對於分類的任務來説，確定data所屬的類別應該是要看過全文，切片段就判斷是武斷的，用類似QA的方法不太可行了。   
+爲了得到全文的訊息，可以嘗試將向量concat起來，然後丟去輸出，也可以concat之後取平均合并，使得維度不變。   
+而從我實驗的資料集來看，兩個方法都差別不大，合并取平均有某些tasks上面結果略好一些   
+   
+## bert可以做文本生成嗎？   
+我們可以利用MaskLM的特性去生成文本，將要生成的文本都mask起來   
+用teacher forcing的方法，一個一個生成。   
+也可以一次過將所有Mask都預測出來。   
+具體的做法和範例可以參考：   
+   
+[BertGenerate Github](https://github.com/voidful/BertGenerate)   
+   
+   
+更進一步的，Bert只用了transformer的encoder，在文本生成來說顯然要結合decoder才能更好發揮！   
+MASS: Masked Sequence to Sequence Pre-training for Language Generation   
+就希望把decoder也拉進來，作為bert的pretrain   
+訓練方法其實跟MaskLM很像，mask連續片段作為encoder的輸入，decoder負責逐個輸出預測。   
+   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_bi1/img10)   
+   
+   
+這個方法很像是Bert跟GPT的結合。這樣的架構也適合用在各種序列有關的任務上，如微軟最近的一篇Almost Unsupervised Text to Speech and Automatic Speech Recognition    
+就是利用MASS架構，用類似Cycle gan方法train tts 同 stt   
+   
+## Bert可以怎麽做 Multi-Task ?   
+在之前的兩篇文章中有解析相關的做法，有興趣可以移步看看   
+   
+[語料不夠怎麼辦，Bert在多任務上預訓練說不定有用](https://voidful.github.io/voidful_blog/paper%20reading/2019/05/06/paper-notes-multi-task-deep-neural-network-for-natural-language-understanding/)   
+   
+[Multi-Task的最高境界是沒有Multi-Task? 解析OpenAI GPT2背後的想法](https://voidful.github.io/voidful_blog/paper%20reading/2019/05/13/paper-notes-thinking-openai-gpt2-and-sparse-transformers/)   
+   
+   
+## Bert可以用在什麽Task上面呢？   
+根據萬物皆可awesome的定律，肯定有人收集Bert各種相關的任務   
+果不其然，Github上面就有相關的awesome list   
+   
+[https://github.com/Jiakui/awesome-bert](https://github.com/Jiakui/awesome-bert)   
+   
+[https://github.com/cedrickchee/awesome-bert-nlp](https://github.com/cedrickchee/awesome-bert-nlp)   
+   
+   
+參考自：   
+Multi-Head Multi-Layer Attention to Deep Language Representations for Grammatical Error Detection   
+To Tune or Not to Tune? Adapting Pretrained Representations to Diverse Tasks   
+MASS: Masked Sequence to Sequence Pre-training for Language Generation   
+Bert時代的創新：Bert應用模式比較及其它   
