@@ -20,7 +20,7 @@ tags: 解析詞向量
 這個系列的文章主要内容：    
 1 - 引子    
     
-- 詞向量的發展史 - word2vec是怎麼一步步想出來的    
+- [詞向量的發展史 - word2vec是怎麼一步步想出來的](https://voidful.github.io/voidful_blog/wordemb101/2019/07/17/word-emb-1/)    
     
 2 - 細節    
     
