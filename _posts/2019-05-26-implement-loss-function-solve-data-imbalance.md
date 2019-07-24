@@ -35,7 +35,7 @@ $$ -log(Px) $$
 越高的機率，意味越不需要更新，因此懲罰越多，因此可以改成   
 $$ -(1-Px)* log(Px)$$    
 為了讓這個懲罰更加有力，可以讓其變成指數級   
-$$ -(1-Px)* log(Px) $$    
+$$ -(1-Px)^y* log(Px) $$    
 這個就是focal loss，如果在二分類，還會有一個調節權重的參數。  
 Focal Loss的圖（關注0-1的部分就好）   
 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/imp_lfsdi/img1)

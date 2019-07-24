@@ -16,10 +16,12 @@ Email : [voidful.stack@gmail.com](voidful.stack@gmail.com)　　　
 ### Skill
 Natural Language Processing, Machine Learning, Crawler, Web Framework, Data Mining   
 Android develop   
-Front-end, AI Design, Nodejs    
+Front-end, Adobe illustrator Design, little Backend    
 
 ### Project   
-
+####   Medical Record Analytic
+Extract knowledge form medical record which have different expressions due to doctor's expression.   
+   
 #### Zero Short End to End Cantonese Speech Recognition   
 Lack of cantonese corpus is most of problem.Now trying to solve it in transfer learning ways.    
  
