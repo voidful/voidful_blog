@@ -21,12 +21,13 @@ tags: 解析詞向量
 這個系列的文章主要内容：    
 1 - 引子    
     
-- [詞向量的發展史 - word2vec是怎麼一步步想出來的](https://voidful.github.io/voidful_blog/wordemb101/2019/07/17/word-emb-1/)    
+- [詞向量的發展史 - word2vec是怎麼一步步想出來的](https://voidful.github.io/voidful_blog/wordemb101/2019/07/17/word-emb-1/)     
     
 2 - 細節    
     
-- word2vec訓練細節-兩套訓練方法/兩個優化方法/兩個詞向量？    
-- 選哪一個訓練和優化方式    
+- [解析詞向量2 word2vec訓練細節 ](https://voidful.github.io/voidful_blog/wordemb101/2019/07/25/word-emb-2/)   
+    - word2vec訓練細節-兩套訓練方法/兩個優化方法/兩個詞向量？    
+    - 選哪一個訓練和優化方式    
     
 3 - 特性    
     
