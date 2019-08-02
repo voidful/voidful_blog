@@ -31,6 +31,7 @@ tags: 解析詞向量
     
 3 - 特性    
     
+[解析詞向量3 word2vec有趣的特性 ](https://voidful.github.io/voidful_blog/wordemb101/2019/08/02/word-emb-3/)
 - 解析word2vec 的特性 - Magnitude/Cos similarity/king-women=Queen    
 - fastText - Word2Vec後續改進，處理OOV(新詞)    
     
