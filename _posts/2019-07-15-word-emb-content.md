@@ -36,7 +36,7 @@ tags: 解析詞向量
 - fastText - Word2Vec後續改進，處理OOV(新詞)    
     
 4 - 本質    
-    
+[解析詞向量 4 word2vec的本質和Glove  ](https://voidful.github.io/voidful_blog/wordemb101/2019/08/28/word-emb-4)   
 - 從現象看本質 - word2vec也是PMI矩陣分解    
 - Glove - 從另外的角度思考    
     
@@ -51,7 +51,4 @@ tags: 解析詞向量
 - 詞向量找關鍵詞    
 - 衡量詞相似的各種花樣    
 - 萬物皆可embedding    
-    
-7 - 結語    
-    
-- 詞向量的缺點，新時代的開始    
+
