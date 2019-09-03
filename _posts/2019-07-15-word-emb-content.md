@@ -25,25 +25,25 @@ tags: 解析詞向量
     
 2 - 細節    
     
-- [解析詞向量2 word2vec訓練細節 ](https://voidful.github.io/voidful_blog/wordemb101/2019/07/25/word-emb-2/)   
+- [解析詞向量2 word2vec訓練細節](https://voidful.github.io/voidful_blog/wordemb101/2019/07/25/word-emb-2/)   
     - word2vec訓練細節-兩套訓練方法/兩個優化方法/兩個詞向量？    
     - 選哪一個訓練和優化方式    
     
 3 - 特性    
     
-[解析詞向量3 word2vec有趣的特性 ](https://voidful.github.io/voidful_blog/wordemb101/2019/08/02/word-emb-3/)
-- 解析word2vec 的特性 - Magnitude/Cos similarity/king-women=Queen    
-- fastText - Word2Vec後續改進，處理OOV(新詞)    
+[解析詞向量3 word2vec有趣的特性](https://voidful.github.io/voidful_blog/wordemb101/2019/08/02/word-emb-3/)
+    - 解析word2vec 的特性 - Magnitude/Cos similarity/king-women=Queen    
+    - fastText - Word2Vec後續改進，處理OOV(新詞)    
     
 4 - 本質    
-[解析詞向量 4 word2vec的本質和Glove  ](https://voidful.github.io/voidful_blog/wordemb101/2019/08/28/word-emb-4)   
-- 從現象看本質 - word2vec也是PMI矩陣分解    
-- Glove - 從另外的角度思考    
+[解析詞向量 4 word2vec的本質和Glove](https://voidful.github.io/voidful_blog/wordemb101/2019/08/28/word-emb-4)   
+    - 從現象看本質 - word2vec也是PMI矩陣分解    
+    - Glove - 從另外的角度思考    
     
 5 - 應用    
-    
-- 各種預訓練詞向量與code    
-- 利用詞向量建立句子向量    
+[解析詞向量 5 網絡資源與句子向量](https://voidful.github.io/voidful_blog/wordemb101/2019/08/28/word-emb-5)  
+    - 各種預訓練詞向量與code    
+    - 利用詞向量建立句子向量    
     
 6 - 花樣    
     
