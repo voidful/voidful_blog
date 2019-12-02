@@ -86,7 +86,7 @@ RoBERTa
    
 ALBERT   
    
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/bru2019/img9ß.png)   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/bru2019/img9.png)   
    
    
 XLNet   
