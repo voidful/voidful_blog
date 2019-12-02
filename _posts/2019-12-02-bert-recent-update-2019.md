@@ -29,7 +29,7 @@ https://voidful.github.io/voidful_blog/implement/2019/06/05/bert-implement-101/
    
 ## 預訓練的方式   
    
-Bert這個模型為什麼會引起那麼大的變革，是由於他改變NLP DL模型的訓練方式。先是用大規模的語料訓練一個學習語意的模型，再用這個模型去做特地的任務 - 閱讀理解/情緒分類/NER…..   
+Bert這個模型為什麼會引起那麼大的變革，是由於他改變NLP DL模型的訓練方式。先是用大規模的語料訓練一個學習語意的模型，再用這個模型去做特定任務 - 閱讀理解/情緒分類/NER…..   
 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/bru2019/img1.png)   
    
    
@@ -86,7 +86,7 @@ RoBERTa
    
 ALBERT   
    
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/bru2019/img8.png)   
+![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/bru2019/img9ß.png)   
    
    
 XLNet   
