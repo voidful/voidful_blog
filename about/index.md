@@ -6,7 +6,7 @@ type: about
 沒有思想的愚蠢不存在於人類之中  
 
 Eric Lam | Voidful   
-NCHU second year of college  
+NCHU third year of college  
 UDIC LAB Member   
 
 ### Content
@@ -15,10 +15,13 @@ Email : [voidful.stack@gmail.com](voidful.stack@gmail.com)　　　
 
 ### Skill
 Natural Language Processing, Machine Learning, Crawler, Web Framework, Data Mining   
-Android develop   
-Front-end, Adobe illustrator Design, little Backend    
+Front-end(React), Adobe illustrator Design, Backend, Android Apps      
 
 ### Project   
+####   Multi-label & multi-task bert     
+[Github](https://github.com/voidful/uniBert)    
+Base on huggingface project to implement multi-label & multi-task classification       
+
 ####   Medical Record Analytic
 Extract knowledge form medical record which have different expressions due to doctor's expression.   
    
