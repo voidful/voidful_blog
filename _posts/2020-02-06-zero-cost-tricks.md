@@ -8,7 +8,7 @@ tags: 實作
 訓練我們的NLP模型或者一個神經網路，需要的是大量的標記的資料。資料有限的時候，怎麼樣再給自己的模型帶來一些提升呢？這裡將會給大家介紹一些有趣的技巧:
 
 
-**label information enhance**
+## label information enhance
 
 在一個分類模型上，我們輸入一串文本，輸出它的類別:
 
@@ -27,7 +27,7 @@ X1 X2 X3… 會作為輸入的embedding，作為輸入文本的representation。
 
 
 
-**Focal Loss**
+## Focal Loss
 
 在做分類的時候，某一類的樣本總是特別多，這就導致模型會偏向將結果判斷成這一類，可以輕鬆得到很高的準確度，但這個準確度對實作來説，並沒有什麽用。
 
@@ -64,12 +64,12 @@ X1 X2 X3… 會作為輸入的embedding，作為輸入文本的representation。
 這個就是focal loss，如果在二分類，還會有一個調節權重的參數
 
 
-**Label Smoothing**
+## Label Smoothing
 
 分類任務通常會預測一個類別的機率為1，其他類別為0，最大化類別之間的差距。模型對於結果的預測已經有9成確信，為了提升到1，可能會讓一些weight去強行fit那些樣本，然其輸出更加接近1。因此，讓模型預測目標到0.9就好，可以減緩overfitting的現象。
 
 
-**PhraseMask**
+## PhraseMask
 
 這一個方法專門為MaskLM打造。在之前的文章中：  
 https://voidful.github.io/voidful_blog/implement/2019/12/02/bert-recent-update-2019/
