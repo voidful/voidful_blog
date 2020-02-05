@@ -76,7 +76,7 @@ plugins:
 # ---------------------------------------------------------------
 
 # Put your favicon.ico into `assets/` directory.
-favicon: /assets/favicon.ico
+favicon: https://avatars2.githubusercontent.com/u/10904842?s=40&v=4
 
 # Set default keywords (Use a comma to separate)
 keywords: "NLP, Blogs"
@@ -233,7 +233,7 @@ social_icons:
 
 # Sidebar Avatar
 # in directory: /assets/images/avatar.gif
-#avatar:
+avatar: https://avatars0.githubusercontent.com/u/10904842?s=460&v=4
 
 
 # Table Of Contents in the Sidebar
