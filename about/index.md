@@ -3,24 +3,44 @@ layout: page
 type: about
 ---
 
-沒有思想的愚蠢不存在於人類之中  
+Simple is powerful
 
 Eric Lam | Voidful   
 NCHU third year of college  
 UDIC LAB Member   
 
 ### Content
-Github : [https://github.com/voidful](https://github.com/voidful)      
-Email : [voidful.stack@gmail.com](voidful.stack@gmail.com)　　　
+Github : [https://github.com/voidful](https://github.com/voidful)        
+Email : [voidful.stack@gmail.com](voidful.stack@gmail.com)　　　  
+Medium : [https://medium.com/@voidful.stack](https://medium.com/@voidful.stack)     
+LinkedIn : [https://www.linkedin.com/in/voidful/](https://www.linkedin.com/in/voidful/)    
+Twitter : [https://twitter.com/voidful_stack](https://twitter.com/voidful_stack)    
+Facebook : [https://www.facebook.com/voidful.nlp/](https://www.facebook.com/voidful.nlp/)    
 
 ### Skill
 Natural Language Processing, Machine Learning, Crawler, Web Framework, Data Mining   
 Front-end(React), Adobe illustrator Design, Backend, Android Apps      
 
-### Project   
-####   Multi-label & multi-task bert     
-[Github](https://github.com/voidful/uniBert)    
-Base on huggingface project to implement multi-label & multi-task classification       
+###   Demo Page   
+[WebPage](https://voidful.tech)    
+
+
+### Project  
+ 
+####   TFkit   
+[Github](https://github.com/voidful/TFkit)    
+🤖📇 Transformers kit - NLP library for different downstream tasks, built on huggingface project
+
+####   NLPrep   
+[Github](https://github.com/voidful/NLPrep)    
+🍳 NLPrep - download and pre-processing data for nlp tasks
+
+####   nlp2go   
+[Github](https://github.com/voidful/nlp2go)    
+🏃 hosting nlp models for demo purpose
+
+### Best AI Award In MAKENTU 2019
+Talk to a poster, it can answer related question using machine reading comprehension & Information retrieval.   
 
 ####   Medical Record Analytic
 Extract knowledge form medical record which have different expressions due to doctor's expression.   
@@ -28,9 +48,9 @@ Extract knowledge form medical record which have different expressions due to do
 #### Zero Short End to End Cantonese Speech Recognition   
 Lack of cantonese corpus is most of problem.Now trying to solve it in transfer learning ways.    
  
-#### Chinese Machine Reading Comprehension
-SQUAD base machine Machine Reading Comprehension with different approach, such as BIDAF, QANet, Bert Fine tuning, Bert with QANet.
-Now working on multi document answering.Duling with efficiency and accuracy is challenge.   
+#### Machine Reading Comprehension
+[Dataset List](https://github.com/voidful/awesome-question-answering-dataset)    
+keep updating with the newest dataset and model   
 
 #### Bert For Sentence Generate 
 [Coalb Trial](https://colab.research.google.com/drive/1AMcUHMzCny4RrPppM2_VnzN8p59w87YT)    
