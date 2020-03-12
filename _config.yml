@@ -122,8 +122,9 @@ menu:
   about: /about/
   archives: /archives/
   tags: /tags/
+  demo: https://voidful.tech
   #sitemap: /sitemap.xml
-  #commonweal: /404.html
+#  commonweal: /404.html
 
 
 # Enable/Disable menu icons.
@@ -142,6 +143,7 @@ menu_icons:
   archives: archive
   sitemap: sitemap
   commonweal: heartbeat
+  demo: connectdevelop
 
 
 
@@ -213,8 +215,8 @@ font:
 # Social Links
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
-#social:
-  #LinkLabel: Link
+social:
+  GitHub: https://github.com/voidful
 
 
 # Social Links Icons
