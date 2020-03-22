@@ -12,8 +12,8 @@ tags: 實作 3line
    
 直接上code～   
    
-    nlprep --dataset drcdqa --task qa --outdir ./drcdqa/   
-    tfkit-train --maxlen 512 --savedir ./drcd_qa_model/ --train ./drcdqa/train --valid ./drcdqa/test --model qa --config voidful/albert_chinese_small  --cache   
+    nlprep --dataset zhqa --task qa --outdir ./zhqa/   
+    tfkit-train --maxlen 512 --savedir ./drcd_qa_model/ --train ./zhqa/drcd-train --valid ./zhqa/drcd-test --model qa --config voidful/albert_chinese_small  --cache
     nlp2go --model ./drcd_qa_model/3.pt --cli --predictor qa   
    
 效果   
@@ -81,11 +81,11 @@ train一個epoch只需要4分鐘
 使用這些套件來訓練albert閱讀理解模型的過程   
    
 1. 下載資料集，轉成QA的格式   
-    nlprep --dataset drcdqa --task qa --outdir ./drcdqa/   
+`nlprep --dataset drcdqa --task qa --outdir ./drcdqa/ ` 
 2. 訓練模型，最大長度設512，預訓練模型是albert_chinese_small   
-    tfkit-train --maxlen 512 --savedir ./drcd_qa_model/ --train ./drcdqa/train --valid ./drcdqa/test --model qa --config voidful/albert_chinese_small  --cache   
+`tfkit-train --maxlen 512 --savedir ./drcd_qa_model/ --train ./drcdqa/train --valid ./drcdqa/test --model qa --config voidful/albert_chinese_small  --cache`   
 3. 拿最好的模型試看看，通常3個epoch左右就收斂了，--cli 可以讓你在terminal或者colab上面測試模型，也支持搭成restful api的形式   
-    nlp2go --model ./drcd_qa_model/3.pt --cli --predictor qa   
+`nlp2go --model ./drcd_qa_model/3.pt --cli --predictor qa ` 
    
 效果嘛   
    
