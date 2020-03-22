@@ -28,7 +28,7 @@ transformer架構的模型最近在大放異彩，我們都想將不同的資料
 
 選出訓練效果最好的模型，部署restful api或cli
 
-    nlp2go --model ./checkpoints/3.pt --predictor biotag --cli   
+    nlp2go --model ./checkpoints/3.pt --cli   
 
 是不是很簡單，三行code就可以完成整個過程。這一篇主要會介紹每一個工具設計的想法和流程，希望能給大家一個整體的畫面，在之後可以細講其中的設計，說不定能吸引更多人維護或者能得到寶貴的建議XD
 

@@ -98,7 +98,7 @@ time這一項距離1很遠，loss還蠻大的。但同時time這一項的機率�
 
 之後用nlp2go去部署模型，cli模式可以讓我們在colab上嘗試不同的輸入。也可以不加cli參數，直接host一個restful api的server，可以用 get 或者 post來獲得我們的結果:
 
-    nlp2go --model ./checkpoints/3.pt --predictor biotag --path ner      
+    nlp2go --model ./checkpoints/3.pt --path ner      
 
 
 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pbnkfz_1/img2)
