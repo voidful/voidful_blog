@@ -17,15 +17,16 @@ tags: 實作 3line
     nlp2go --model ./drcd_qa_model/3.pt --cli --predictor qa   
    
 效果   
-   
+#### DRCD Test
+albert-small EM:72.71% F1:84.65%   
+#### DRCD Dev
+albert-small EM:73.70% F1:85.33%   
+
+[Colab](https://colab.research.google.com/drive/1hqaTKxd3VtX2XkvjiO0FMtY-rTZX30MJ)
+
 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/tlaq/img1)   
    
    
-train一個epoch只需要4分鐘   
-   
-![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/tlaq/img2)   
-
-
 ## 機器閱讀理解的問答模型？   
    
 首先，你可以會有疑問說，什麼是機器閱讀理解？   
@@ -87,8 +88,15 @@ train一個epoch只需要4分鐘
 3. 拿最好的模型試看看，通常3個epoch左右就收斂了，--cli 可以讓你在terminal或者colab上面測試模型，也支持搭成restful api的形式   
 `nlp2go --model ./drcd_qa_model/3.pt --cli ` 
    
-效果嘛   
-   
+效果嘛,albert small模型大小18MB，比bert小三十倍左右，在colab上面每一秒可以預測53.18筆資料   
+最終在DRCD測試集的分數如下:   
+```
+bert-base    EM:85.49% F1:91.46%    
+albert-small EM:74.90% F1:85.75% 
+```
+可以移步到我的demo website去測試看看效果～    
+[https://voidful.tech](https://voidful.tech)
+    
 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/tlaq/img1)   
    
    
