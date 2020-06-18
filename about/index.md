@@ -6,7 +6,6 @@ type: about
 Simple is powerful
 
 Eric Lam | Voidful   
-NCHU third year of college  
 UDIC LAB Member   
 
 ### Content
@@ -76,7 +75,5 @@ Using Fasttext train multi-classifier, select retrain sample form voting, entrop
 Mining from Wiki Dump data, getting plain text, synonym from redirect, translation from language link and relationship from category.   
 
 #### Web Crawler For Well-know Hong Kong & Taiwan Website
-Collect corpus for nlp task, base on scrapy, crawling all text in 19 well-know website :   
-Apple Daily HK /Baby Kingdom HK /Backpackers TW / Community TW / Dcard TW / Discuss HK /Evc HK /Evc TW /Gamer TW /Golden HK / Mobile01 TW /Pttpedia TW / PTT tw / Schoolsecret HK /Taigipahkho TW / Uncyclopedia CN/Uwants HK/Wikia HK/Zhpedia TW   
-
+Collect corpus for nlp task, base on scrapy, crawling all text in 19 well-know website.
 
