@@ -4,9 +4,11 @@ categories:
  - Paper Reading
 tags: 論文解析
 ---
+
 Bert以及之後的論文，都會在資料上玩各種花樣，使得self-supervised learning學到的representation更加強大  
-Hinton的SimCLR以及後續的論文提供了一個新的方向 - 直接在representation上動手，用不同的方法加噪聲  
-最終學到的representation也是十分強大，無監督模型可以接近有監督模型的結果！  
+Hinton的SimCLR以及後續的論文提供了一個新的方向 - 直接在representation上動手，用不同的方法加噪聲   
+最終學到的representation也是十分強大，無監督模型還可以接近有監督模型的結果！   
+這或許預示了self-supervised learning的新方向！  
 
 SimCLR - A Simple Framework for Contrastive Learning of Visual Representations   
 SimCLRv2 - Big Self-Supervised Models are Strong Semi-Supervised Learners   
