@@ -4,6 +4,9 @@ categories:
  - Paper Reading
 tags: 論文解析
 ---
+Bert以及之後的論文，都會在資料上玩各種花樣，使得self-supervised learning學到的representation更加強大  
+Hinton的SimCLR以及後續的論文提供了一個新的方向 - 直接在representation上動手，用不同的方法加噪聲  
+最終學到的representation也是十分強大，無監督模型可以接近有監督模型的結果！  
 
 SimCLR - A Simple Framework for Contrastive Learning of Visual Representations   
 SimCLRv2 - Big Self-Supervised Models are Strong Semi-Supervised Learners   
@@ -11,13 +14,13 @@ BYOL - Bootstrap Your Own Latent A New Approach to Self-Supervised Learning
 本文會從以上三篇論文出發,介紹下最近self-supervise learning的一個新方向。  
 
 
-預訓練的目的是希望從大量的資料中學到有用的特徵，讓下游任務可以參考，從而得到更好的結果。常見的方式有 - 生成式(generative) 和 判別式(discriminative)。 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_simclr/YaycOTg.png)
+預訓練的目的是希望從大量的資料中學到有用的特徵，讓下游任務可以參考，從而得到更好的結果。常見的方式有：生成式(generative) 和 判別式(discriminative)。 ![](https://raw.githubusercontent.com/voidful/voidful_blog/master/assets/post_src/pn_simclr/YaycOTg.png)
 
-生成式(generative)通常會將輸入壓縮輸入，希望輸出可以盡可能將壓縮的輸入還原。比如將輸入的大小降低一半，模型需要將其還原到原本的樣子。而還原的圖片每一個像素都要接近原來的樣子，這是很困難的事情。這導致
+生成式(Generative)通常會將輸入壓縮輸入，希望輸出可以盡可能將壓縮的輸入還原。比如將輸入的大小降低一半，模型需要將其還原到原本的樣子。而還原的圖片每一個像素都要接近原來的樣子，這是很困難的事情。這導致
 - 這類型的預訓練方法不好學(不好收斂)
 - 模型也花很多心思在微調一個個像素，像素的差異對下游任務幫助並不大，模型會學到一些不那麼通用的特徵  
 
-判別式(discriminative)則是會判斷某個輸入的類別。如輸入一張圖片，判斷這種圖片裡面有什麼。判別式模型訓練相對生成式簡單，但很受限於資料，導致  
+判別式(Discriminative)則是會判斷某個輸入的類別。如輸入一張圖片，判斷這種圖片裡面有什麼。判別式模型訓練相對生成式簡單，但很受限於資料，導致  
 - 需要大量標記好的資料才可以發揮效果。  
 - 資料集的偏差會使得模型有偏差，這種偏差也會直接帶動下游任務中。  
 - 模型從輸入資料的種類得到的特徵，未必對有新資料的下游任務起到幫助。   
